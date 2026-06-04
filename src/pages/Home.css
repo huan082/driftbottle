@@ -1,0 +1,129 @@
+/* ══ Home.css ══ */
+
+.home-page {
+  gap: 0;
+  justify-content: center;
+  padding-top: 96px;
+}
+
+/* Hero */
+.home-hero {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.8s var(--ease, cubic-bezier(.4,0,.2,1)) both;
+}
+.home-hero__eyebrow {
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.28em;
+  color: var(--gold-light, #e8c278);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+.home-hero__title {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 72px;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text-bright, #f4f0e8);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  text-shadow: 0 0 60px rgba(212,168,83,0.2);
+}
+.home-hero__sub {
+  font-size: 15px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--text-soft, rgba(242,238,228,0.72));
+  font-weight: 300;
+}
+
+/* Bottle */
+.home-bottle-wrap {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  user-select: none;
+  animation: fadeInUp 0.9s var(--ease) 0.15s both;
+}
+.home-bottle {
+  filter: drop-shadow(0 8px 24px rgba(212,168,83,0.22));
+  transition: filter 0.3s;
+}
+.home-bottle-wrap:hover .home-bottle {
+  filter: drop-shadow(0 12px 36px rgba(212,168,83,0.4));
+}
+.home-bottle--float { animation: float 5s ease-in-out infinite; }
+.home-bottle--shake { animation: bottleShake 0.65s ease; }
+
+.home-bottle__hint {
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  color: var(--gold-light, #e8c278);
+  opacity: 0.7;
+  animation: fadeIn 0.4s ease;
+}
+
+.home-quote {
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--text-soft, rgba(242,238,228,0.72));
+  text-align: center;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.9s var(--ease) 0.2s both;
+  font-weight: 300;
+}
+
+/* 統計區塊 */
+.home-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.9s var(--ease) 0.28s both;
+}
+.home-stat {
+  font-size: 13px;
+  font-style: normal;
+  letter-spacing: 0.15em;
+  color: var(--text-dim, rgba(242,238,228,0.42));
+}
+.home-stat__num {
+  color: var(--gold-light, #e8c278);
+  font-size: 17px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: normal;
+}
+.home-stat__divider {
+  color: var(--text-ghost, rgba(242,238,228,0.2));
+  font-size: 13px;
+}
+
+/* CTA buttons */
+.home-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInUp 0.9s var(--ease) 0.36s both;
+}
+
+/* Scroll hint */
+.home-scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0.25em;
+  color: var(--text-ghost, rgba(242,238,228,0.2));
+  animation: shimmerPulse 3s ease-in-out infinite;
+}

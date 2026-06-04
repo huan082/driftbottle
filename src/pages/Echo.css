@@ -1,0 +1,534 @@
+:root {
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.echo-page {
+  justify-content: flex-start;
+  padding-top: 50px;
+  position: relative;
+}
+
+/* ── 漂流瓶層 ── */
+.echo-bottles-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.echo-bottles-layer > * {
+  pointer-events: auto;
+}
+
+/* ── 漂流瓶基礎狀態 ── */
+.drift-bottle {
+  position: fixed;
+  left: var(--bottle-left);
+  bottom: var(--bottle-bottom);
+  width: 64px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: var(--bottle-opacity);
+  transform: translate(-50%, 50%) scale(var(--bottle-scale)) rotate(var(--bottle-rotate));
+  animation: waveFloat var(--bottle-duration) ease-in-out infinite;
+  animation-delay: var(--bottle-delay);
+  filter: drop-shadow(0 4px 6px rgba(0, 24, 38, 0.12));
+  /* 轉場設定：各元件分開，瓶子撈起時要絲滑 */
+  transition: 
+    left 0.7s var(--ease-out-expo),
+    bottom 0.7s var(--ease-out-expo),
+    opacity 0.5s ease, 
+    transform 0.6s var(--ease-out-back),
+    filter 0.5s ease;
+}
+
+.drift-bottle::before {
+  content: '';
+  position: absolute;
+  inset: -12px -16px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.22), transparent 65%);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.drift-bottle:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── 【關鍵步驟一】瓶子被撈起：移至螢幕中央、放大、轉正 ── */
+.drift-bottle--active {
+  opacity: 1 !important;
+  animation: none !important; /* 停止海浪搖晃 */
+  
+  /* 強制覆蓋隨機位置，直接拉到畫面正中央 (50%, 50%) 放大 1.8 倍 */
+  left: 50% !important;
+  bottom: 50% !important;
+  transform: translate(-50%, 50%) scale(1.8) rotate(0deg) !important;
+  filter: drop-shadow(0 20px 30px rgba(0, 24, 38, 0.25)) drop-shadow(0 0 20px rgba(255, 230, 155, 0.4)) !important;
+}
+
+/* ── 撈起時，其他海面上的瓶子徹底淡出隱形，讓舞台乾淨 ── */
+.drift-bottle--inactive {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translate(-50%, 50%) scale(0.4) rotate(var(--bottle-rotate)) !important;
+  filter: blur(4px);
+}
+
+.drift-bottle--sealed {
+  opacity: 0.25;
+  transform: translate(-50%, 50%) scale(calc(var(--bottle-scale) * 0.75)) rotate(var(--bottle-rotate));
+}
+
+/* ── 【關鍵步驟四】紙條抽完後，整個瓶身與漣漪隱形 ── */
+.drift-bottle--active .drift-bottle__glass,
+.drift-bottle--active .drift-bottle__neck,
+.drift-bottle--active .drift-bottle__shine,
+.drift-bottle--active .drift-bottle__shadow,
+.drift-bottle--active .drift-bottle__ripple {
+  transition: opacity 0.4s ease;
+  transition-delay: 1s; /* 1秒時瓶身消失 */
+  opacity: 0 !important;
+}
+
+/* ── 瓶子外觀細節 ── */
+.drift-bottle__glass {
+  position: absolute;
+  left: 8px;
+  top: 10px;
+  width: 42px;
+  height: 18px;
+  border-radius: 14px 10px 10px 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(113, 181, 174, 0.24) 48%, rgba(46, 105, 112, 0.14)),
+    rgba(211, 245, 237, 0.38);
+  border: 1.5px solid rgba(224, 255, 248, 0.68);
+  box-shadow: inset 0 -4px 7px rgba(24, 83, 91, 0.14);
+}
+
+.drift-bottle__neck {
+  position: absolute;
+  left: 38px;
+  top: 5px;
+  width: 16px;
+  height: 8px;
+  border-radius: 0 6px 6px 0;
+  background: rgba(209, 244, 236, 0.48);
+  border: 1.5px solid rgba(224, 255, 248, 0.66);
+  border-left: 0;
+}
+
+/* ── 【關鍵步驟二】拔開木塞：往右上方飛走並旋轉 ── */
+.drift-bottle__cork {
+  position: absolute;
+  left: 54px;
+  top: 4px;
+  width: 7px;
+  height: 9px;
+  border-radius: 1px 4px 4px 1px;
+  background: linear-gradient(180deg, #c09055, #7b5733);
+  transition: transform 0.4s ease-in, opacity 0.3s ease;
+}
+.drift-bottle--active .drift-bottle__cork {
+  transition-delay: 0.4s; /* 撈起到中央後 (0.4s)，木塞射出飛走 */
+  transform: translate(35px, -25px) rotate(60deg);
+  opacity: 0;
+}
+
+/* ── 【關鍵步驟三】紙條抽出：往右滑出瓶口、轉正放大 ── */
+.drift-bottle__paper {
+  position: absolute;
+  left: 11px;
+  top: 6px;
+  width: 18px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #f1dfba, #c89d62);
+  transform: rotate(-5deg);
+  box-shadow: 0 0 0 0.5px rgba(110, 71, 37, 0.1);
+  transition: transform 0.5s var(--ease-out-back), opacity 0.3s ease, background 0.3s;
+}
+.drift-bottle--active .drift-bottle__paper {
+  transition-delay: 0.75s; /* 木塞飛走後 (0.75s)，紙條向右從瓶口抽出並暴增放大 */
+  background: #fdf6e2; /* 抽出時顏色變亮，像展開前的信紙 */
+  /* 向右越過瓶頸與瓶口，並巨幅放大 */
+  transform: translate(50px, -2px) scale(3.2) rotate(0deg) !important;
+  opacity: 0.9;
+}
+
+.drift-bottle__shine {
+  position: absolute;
+  left: 9px;
+  top: 4px;
+  width: 16px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.drift-bottle__shadow {
+  position: absolute;
+  left: 10px;
+  right: 5px;
+  bottom: 0;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 33, 51, 0.15);
+  filter: blur(3px);
+}
+
+.drift-bottle__ripple {
+  position: absolute;
+  left: 4px;
+  top: 26px;
+  width: 60px;
+  height: 10px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(231, 255, 255, 0.36);
+  border-top-color: transparent;
+  opacity: 0.5;
+}
+
+/* ── 【關鍵步驟五】心事卡片壓軸登場 ── */
+.echo-card {
+  width: 100%;
+  max-width: min(580px, calc(100vw - 48px));
+  padding: 28px 32px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: relative;
+  z-index: 100;
+  
+  /* 完美的無縫接軌：在紙條放大抽出的瞬間 (1.15s)，卡片緊接著優雅鋪開 */
+  animation: cardOpenRitual 0.75s var(--ease-out-expo) both;
+  animation-delay: 1.15s; 
+  transition: opacity 0.4s ease, transform 0.4s var(--ease-out-back);
+}
+
+@keyframes cardOpenRitual {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    /* 模仿紙條由小變大、平鋪展開的 3D 翻轉拉伸感 */
+    transform: translateY(20px) scaleX(0.2) scaleY(0.1) rotateX(-30deg);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scaleX(1) scaleY(1) rotateX(0deg);
+  }
+}
+
+/* 卡片右上角關閉鈕 */
+.echo-card__close {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  background: transparent;
+  border: 0;
+  color: var(--text-ghost);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 4px;
+}
+.echo-card__close:hover {
+  color: var(--gold-light);
+}
+
+.echo-card--fading {
+  opacity: 0 !important;
+  transform: translateY(-12px) scale(0.98) !important;
+}
+
+.echo-card--sealed {
+  opacity: 0.45;
+  border-color: rgba(242, 238, 228, 0.06) !important;
+}
+
+.echo-card--sealed:hover {
+  background: var(--card-bg) !important;
+}
+
+/* ── Meta ── */
+.echo-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.echo-card__time {
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--text-dim);
+}
+
+.echo-card__badge {
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0.14em;
+  color: var(--gold-light);
+  border: 1px solid rgba(212, 168, 83, 0.3);
+  background: rgba(212, 168, 83, 0.08);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* page header meta (淡色顯示) */
+.page-header__meta {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-ghost);
+}
+.page-header__meta strong {
+  color: var(--text-dim);
+}
+
+/* ── Original quote ── */
+.echo-card__original {
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1.85;
+  color: var(--text-dim);
+  border-left: 2px solid rgba(212, 168, 83, 0.35);
+  padding-left: 14px;
+  margin-bottom: 18px;
+  font-weight: 300;
+}
+
+/* ── 對話串 ── */
+.echo-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.echo-thread__msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 90%;
+}
+
+.echo-thread__msg--them {
+  align-self: flex-start;
+}
+
+.echo-thread__msg--me {
+  align-self: flex-end;
+}
+
+.echo-thread__label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-ghost);
+}
+
+.echo-thread__msg--me .echo-thread__label {
+  text-align: right;
+}
+
+.echo-thread__text {
+  font-size: 14px;
+  line-height: 1.85;
+  font-weight: 300;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 0;
+}
+
+.echo-thread__msg--them .echo-thread__text {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-bottom-left-radius: 4px;
+}
+
+.echo-thread__msg--me .echo-thread__text {
+  background: rgba(212, 168, 83, 0.12);
+  border: 1px solid rgba(212, 168, 83, 0.25);
+  color: var(--text-bright);
+  border-bottom-right-radius: 4px;
+}
+
+/* ── 回覆輸入框 ── */
+.echo-reply-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  animation: slideDown 0.35s var(--ease-out-expo) both;
+}
+
+.echo-reply-box__textarea {
+  min-height: 80px;
+  font-size: 14px;
+}
+
+.echo-reply-box__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.echo-reply-box__send {
+  padding: 9px 22px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+}
+
+.echo-reply-box__cancel {
+  padding: 9px 22px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+}
+
+/* ── 底部按鈕列 ── */
+.echo-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.echo-btn {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-style: normal;
+  letter-spacing: 0.15em;
+  padding: 9px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.echo-btn:hover:not(:disabled) {
+  color: var(--text-bright);
+  border-color: rgba(242, 238, 228, 0.35);
+  background: var(--card-bg);
+}
+
+.echo-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.echo-btn--continue {
+  color: var(--gold) !important;
+  border-color: var(--border-gold) !important;
+  background: rgba(212, 168, 83, 0.07) !important;
+}
+
+.echo-btn--continue:hover {
+  background: rgba(212, 168, 83, 0.14) !important;
+}
+
+.echo-btn--sealed {
+  color: var(--text-ghost) !important;
+  border-color: rgba(242, 238, 228, 0.08) !important;
+}
+
+.echo-btn--reopen {
+  color: var(--gold-light) !important;
+  border-color: rgba(232, 194, 120, 0.35) !important;
+  background: rgba(232, 194, 120, 0.07) !important;
+}
+
+.echo-btn--reopen:hover {
+  background: rgba(232, 194, 120, 0.14) !important;
+}
+
+.echo-card__sealed-label {
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.15em;
+  color: rgba(212, 168, 83, 0.45);
+  animation: fadeIn 0.4s ease;
+}
+
+/* ── 空狀態 ── */
+.echo-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 48px 0 24px;
+  animation: fadeIn 0.5s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.echo-empty__icon {
+  font-size: 40px;
+  opacity: 0.6;
+}
+
+.echo-empty__text {
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  color: var(--text-ghost);
+}
+
+/* ── 海浪起伏動畫（未選中時隨波逐流） ── */
+@keyframes waveFloat {
+  0%, 100% {
+    transform: translate(-50%, 50%) scale(var(--bottle-scale)) rotate(var(--bottle-rotate)) translateY(0) translateX(0);
+  }
+  33% {
+    transform: translate(-50%, 50%) scale(var(--bottle-scale)) rotate(calc(var(--bottle-rotate) + 4deg)) translateY(-8px) translateX(3px);
+  }
+  66% {
+    transform: translate(-50%, 50%) scale(var(--bottle-scale)) rotate(calc(var(--bottle-rotate) - 3deg)) translateY(2px) translateX(-2px);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── 響應式 ── */
+@media (max-width: 640px) {
+  .drift-bottle {
+    width: 54px;
+    height: 30px;
+  }
+
+  .drift-bottle__glass {
+    width: 36px;
+    height: 15px;
+  }
+
+  .echo-card {
+    padding: 20px 24px;
+  }
+}

@@ -1,0 +1,27 @@
+{
+	"title": "Funciones de ShiLang",
+	"subtitle": "Descripciones detalladas de las funciones (Now / Talk / Meet / Echo / Trace)",
+	"features": {
+		"now": {
+			"title": "Now (Inicio)",
+			"desc": "La superficie estática del mar mostrada al entrar a ShiLang. Actúa como un punto de inicio tranquilo que muestra la actividad reciente y accesos a otras funciones."
+		},
+		"talk": {
+			"title": "Talk (Lanzar Botella)",
+			"desc": "Los usuarios redactan mensajes y los lanzan al mar; pueden elegir etiquetas de emoción y la duración de deriva de la botella, luego esperar a que otros la recojan."
+		},
+		"meet": {
+			"title": "Meet (Recoger Botella)",
+			"desc": "Recoge aleatoriamente la botella de ánimo de un desconocido. Puedes ver el contenido, responder o interactuar."
+		},
+		"echo": {
+			"title": "Echo (Respuestas de Botella)",
+			"desc": "Aquí aparecen las respuestas a las botellas que lanzaste. Puedes elegir continuar la conversación o hacer clic para finalizarla."
+		},
+		"trace": {
+			"title": "Trace (Mis Items)",
+			"desc": "Gestiona tu historial de publicaciones, ve el estado de deriva actual de tus botellas y elimina o archiva mensajes."
+		}
+	},
+	"buttons": { "set_en": "English", "set_es": "Español", "set_zh": "中文" }
+}

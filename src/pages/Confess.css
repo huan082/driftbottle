@@ -1,0 +1,136 @@
+/* ══ Confess.css ══ */
+
+.confess-page {
+  align-items: center;
+  padding-top: 20px;
+}
+
+/* Card - constrained to viewport */
+.confess-card {
+  width: 100%;
+  max-width: min(560px, calc(100vw - 48px));
+  padding: 40px 40px 44px;
+  animation: fadeInUp 0.7s var(--ease) both;
+  box-sizing: border-box;
+}
+
+.confess-card__header {
+  margin-bottom: 28px;
+  text-align: center;
+}
+.confess-card__title {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 40px;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text-bright, #f4f0e8);
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+}
+.confess-card__sub {
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.14em;
+  color: var(--text-dim, rgba(242,238,228,0.42));
+  font-weight: 300;
+}
+
+/* Emotion tags */
+.confess-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.confess-tag {
+  font-family: var(--font-serif, 'Noto Serif TC', serif);
+  font-size: 13px;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border, rgba(242,238,228,0.12));
+  background: transparent;
+  color: var(--text-soft, rgba(242,238,228,0.72));
+  cursor: pointer;
+  transition: all 0.22s;
+}
+.confess-tag:hover:not(:disabled) {
+  border-color: rgba(212,168,83,0.5);
+  color: var(--gold-light, #e8c278);
+  background: rgba(212,168,83,0.08);
+}
+.confess-tag--active {
+  border-color: var(--gold, #d4a853) !important;
+  color: var(--gold, #d4a853) !important;
+  background: rgba(212,168,83,0.14) !important;
+  box-shadow: 0 0 14px rgba(212,168,83,0.18);
+}
+.confess-tag:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Submit button */
+.confess-submit {
+  width: 100%;
+  margin-top: 32px;
+  padding: 15px;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+}
+
+/* Throw overlay */
+.confess-throw-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(4,13,24,0.35);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+.confess-throw-bottle {
+  filter: drop-shadow(0 0 20px rgba(212,168,83,0.5));
+  animation: throwFlight 2.9s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+
+/* Success */
+.confess-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: fadeInUp 0.6s var(--ease) both;
+}
+.confess-success__icon { font-size: 52px; }
+.confess-success__text {
+  font-family: 'Noto Serif TC', 'Source Han Serif TC', serif;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--text-bright, #f4f0e8);
+  letter-spacing: 0.08em;
+}
+.confess-success__sub {
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  color: var(--text-dim, rgba(242,238,228,0.42));
+}
+
+/* Emoji inside tag */
+.confess-tag__emoji {
+  margin-right: 5px;
+  font-size: 13px;
+}
+
+/* 組員：送出按鈕漂走動畫 */
+.confess-submit--drift {
+  animation: driftAway 1.5s forwards;
+}
+@keyframes driftAway {
+  to {
+    transform: translateX(120px) rotate(12deg);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,27 @@
+{
+	"title": "ShiLang Features",
+	"subtitle": "Detailed feature descriptions (Now / Talk / Meet / Echo / Trace)",
+	"features": {
+		"now": {
+			"title": "Now (Home)",
+			"desc": "The initial static sea surface shown after entering ShiLang. Acts as a calm starting point presenting recent activity and entry points to other features."
+		},
+		"talk": {
+			"title": "Talk (Throw Bottle)",
+			"desc": "Users compose messages and toss them into the sea. They can choose emotion tags and the bottle's drift duration, then wait for others to pick them up."
+		},
+		"meet": {
+			"title": "Meet (Retrieve Bottle)",
+			"desc": "Randomly pick up a stranger's mood bottle. You can view the content, respond, or interact."
+		},
+		"echo": {
+			"title": "Echo (Bottle Replies)",
+			"desc": "Replies to bottles you've thrown appear here. You can choose to continue the conversation or click to end it."
+		},
+		"trace": {
+			"title": "Trace (My Items)",
+			"desc": "Manage your posting history, view the current drift status of your bottles, and delete or archive messages."
+		}
+	},
+	"buttons": { "set_en": "English", "set_es": "Español", "set_zh": "中文" }
+}
