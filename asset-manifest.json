@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/driftbottle/static/css/main.8c57def1.css",
+    "main.css": "/driftbottle/static/css/main.6366ba21.css",
     "main.js": "/driftbottle/static/js/main.57a190e8.js",
     "index.html": "/driftbottle/index.html",
-    "main.8c57def1.css.map": "/driftbottle/static/css/main.8c57def1.css.map",
+    "main.6366ba21.css.map": "/driftbottle/static/css/main.6366ba21.css.map",
     "main.57a190e8.js.map": "/driftbottle/static/js/main.57a190e8.js.map"
   },
   "entrypoints": [
-    "static/css/main.8c57def1.css",
+    "static/css/main.6366ba21.css",
     "static/js/main.57a190e8.js"
   ]
 }
